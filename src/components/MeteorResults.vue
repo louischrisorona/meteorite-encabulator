@@ -9,8 +9,15 @@
 </template>
 
 <script>
+import MeteoriteAPI from '@/API/MeteoriteAPI'
 
 export default {
+	name: 'MeteorResults',
+	data () {
+		return {
+
+		}
+	},
 	components: {
 		//any custom components needed
 	},
@@ -19,11 +26,6 @@ export default {
 	},
 	computed: {
 		//data that needs to be calculated
-	},
-	data () {
-		return {
-		//necessary data to render
-		}
 	},
 	methods: {
 		//any helper functions
