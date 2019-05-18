@@ -16,14 +16,14 @@ export default {
 			request.send()
 		})
 	},
-	useJSON (addressURI){
-		return getMeteors(addressURI).then(JSON.parse);
+	useJSON (url){
+		return getMeteors(url).then(JSON.parse);
 	}
-
+}
 	useJSON("https://data.nasa.gov/resource/gh4g-9sfh.json")
 		.then( response => {
 			console.log("Success!", response);
 		}).catch( error => {
 			console.error("Failed!", error);
 		})
-}
+	
