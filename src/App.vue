@@ -1,16 +1,30 @@
 <template>
   <div id="app">
-    <MeteorResults/>
+    <SearchMeteors @searchMeteorites="updateMeteors" />
+    <MeteorResults :meteorite="childData" />
+
   </div>
 </template>
 
 <script>
 import MeteorResults from './components/MeteorResults'
+import SearchMeteors from './components/SearchMeteors'
 
 export default {
   name: 'app',
   components: {
-    MeteorResults
+    MeteorResults,
+    SearchMeteors
+  },
+  data () {
+    return {
+      childData: []
+    }
+  },
+  methods: {
+    updateMeteors(meteor) {
+      this.childData.push(meteor)
+    }
   }
 }
 </script>

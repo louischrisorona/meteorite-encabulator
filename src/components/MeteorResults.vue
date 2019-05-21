@@ -1,36 +1,30 @@
 <template>
-	<vk-grid>
+	<vk-grid divided gutter="small">
 		<div>
-			<div v-for="meteorite in meteorites">
-				<div v-for="(value, name) in meteorite">{{name}}:{{value}}</div>
-			</div>
+			<li v-for="(meteorite, index) in meteorites" :item="meteorite" :key="index"> {{ meteorite }} </li>
 		</div>
 	</vk-grid>
 </template>
 
 <script>
-import MeteoriteAPI from '@/API/MeteoriteAPI'
-
 export default {
 	name: 'MeteorResults',
-	data () {
-		return {
-
+	props: {
+		meteorite: {
+			type: String
 		}
 	},
-	components: {
-		//any custom components needed
+	data () {
+		return {
+			meteorites: []
+		}
 	},
 	watch: {
 		//properties and data that needs to be tracked
-	},
-	computed: {
-		//data that needs to be calculated
-	},
-	methods: {
-		//any helper functions
+		msg: function () {
+			this.meteorites.push(this.meteorite)
+		}
 	}
-
 }
 </script>
 
