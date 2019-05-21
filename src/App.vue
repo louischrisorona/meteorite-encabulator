@@ -1,34 +1,38 @@
 <template>
-  <div id="app">
-    <SearchMeteors @searchMeteorites="updateMeteors" />
-    <MeteorResults :meteorite="childData" />
+  <v-app>
+    <v-toolbar app>
+      <v-toolbar-title class="headline text-uppercase">
+        <span>Vuetify</span>
+        <span class="font-weight-light">MATERIAL DESIGN</span>
+      </v-toolbar-title>
+      <v-spacer></v-spacer>
+      <v-btn
+        flat
+        href="https://github.com/vuetifyjs/vuetify/releases/latest"
+        target="_blank"
+      >
+        <span class="mr-2">Latest Release</span>
+      </v-btn>
+    </v-toolbar>
 
-  </div>
+    <v-content>
+      <HelloWorld/>
+    </v-content>
+  </v-app>
 </template>
 
 <script>
-import MeteorResults from './components/MeteorResults'
-import SearchMeteors from './components/SearchMeteors'
+import HelloWorld from './components/HelloWorld'
 
 export default {
-  name: 'app',
+  name: 'App',
   components: {
-    MeteorResults,
-    SearchMeteors
+    HelloWorld
   },
   data () {
     return {
-      childData: []
-    }
-  },
-  methods: {
-    updateMeteors(meteor) {
-      this.childData.push(meteor)
+      //
     }
   }
 }
 </script>
-
-<style>
-
-</style>
