@@ -1,33 +1,25 @@
 <template>
   <v-app>
-    <v-toolbar app>
-      <v-toolbar-title class="headline text-uppercase">
-        <span>Vuetify</span>
-        <span class="font-weight-light">MATERIAL DESIGN</span>
-      </v-toolbar-title>
-      <v-spacer></v-spacer>
-      <v-btn
-        flat
-        href="https://github.com/vuetifyjs/vuetify/releases/latest"
-        target="_blank"
-      >
-        <span class="mr-2">Latest Release</span>
-      </v-btn>
+    <v-toolbar app class="elevation-24 secondary">
+      <div class="text-uppercase mx-auto text-xs-center accent--text display-2">Meteorite Turbo Encabulator</div>
     </v-toolbar>
 
     <v-content>
-      <HelloWorld/>
+      <SearchMeteors/>
+      <MeteorResults/>
     </v-content>
   </v-app>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld'
+import SearchMeteors from './components/SearchMeteors'
+import MeteorResults from './components/MeteorResults'
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    SearchMeteors,
+    MeteorResults
   },
   data () {
     return {

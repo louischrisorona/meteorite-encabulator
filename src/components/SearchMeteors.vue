@@ -1,18 +1,11 @@
 <template>
-	<div>
-		<form>
-			<input
-				type="text"
-				name="meteorites"
-				placeholder="Search for a meteorite"
-				v-model="tempMeteorites"
-				class="form-control"
-				@submit="submit"
-			/>
-			<vk-button id="formSubmit" type="primary" v-on:click.prevent="search()">Star Gaze</vk-button>
-		</form>
-		<vk-spinner id="spinner" v-if="searchStatus != 'complete'"></vk-spinner>
-	</div>
+	<v-container app>
+		<v-form id="search">
+			<input type="text" name="query" v-model="searchQuery">
+			<!-- need to figure out how to use a clear button -->
+			<v-btn class="warning secondary--text" v-on:click="search()">Star Gaze</v-btn>
+		</v-form>
+	</v-container>
 </template>
 
 <script>
@@ -20,7 +13,24 @@ export default {
 	name: "searchMeteors",
 	data () {
 		return {
-			tempMeteorites: ''
+			searchQuery: ''
+		}
+	},
+	computed: {
+		getMeteors (url) {
+			return new Promise((resolve, reject) => {
+				const request = new XMLHttpRequest()
+				request.open("GET", url)
+				request.onload = () => {
+				if (request.status == 200) {
+					resolve(request.responseText)
+				} else {
+					reject(Error(request.statusText))
+				}
+			}
+			request.onerror = () => reject(Error("Network error"))
+			request.send()
+			})
 		}
 	},
 	methods: {
@@ -29,7 +39,7 @@ export default {
 			this.tempMeteorites = ''
 		},
 		search () {
-			this.getMeteors('https://data.nasa.gov/resource/gh4g-9sfh.json')
+			getMeteors('https://data.nasa.gov/resource/gh4g-9sfh.json')
 			.then( response => {
 				console.log(response)
 				this.tempMeteorites = response
@@ -38,25 +48,16 @@ export default {
 				this.statusMsg = "Something went wrong."
 			})
 		},
-		getMeteors (url) {
-			return new Promise((resolve, reject) => {
-				const request = new XMLHttpRequest()
-				request.open("GET", url)
-				request.onload = () => {
-					if (request.status == 200) {
-						resolve(request.responseText)
-					} 
-					else {
-						reject(Error(request.statusText))
-					}
-				}
-				request.onerror = () => reject(Error("Network error"))
-				request.send()
-			})
+		
 			//.then(JSON.parse)
+		},
+		reset () {
+			this.$refs.form.reset()
+		},
+		loadMeteors () {
+			
 		}
 	}
-}
 </script>
 
 <style>
