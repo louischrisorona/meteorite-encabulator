@@ -1,28 +1,30 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  </div>
+  <v-app>
+    <v-toolbar app class="elevation-24 secondary">
+      <div class="text-uppercase mx-auto text-xs-center accent--text display-2">Meteorite Turbo Encabulator</div>
+    </v-toolbar>
+
+    <v-content>
+      <SearchMeteors/>
+      <MeteorResults/>
+    </v-content>
+  </v-app>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import SearchMeteors from './components/SearchMeteors'
+import MeteorResults from './components/MeteorResults'
 
 export default {
-  name: 'app',
+  name: 'App',
   components: {
-    HelloWorld
+    SearchMeteors,
+    MeteorResults
+  },
+  data () {
+    return {
+      //
+    }
   }
 }
 </script>
-
-<style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
