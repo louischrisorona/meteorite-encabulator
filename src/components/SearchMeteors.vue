@@ -13,7 +13,8 @@ export default {
 	name: "searchMeteors",
 	data () {
 		return {
-			searchQuery: ''
+			searchQuery: '',
+			baseAPIurl: 'https://data.nasa.gov/resource/gh4g-9sfh.json?'
 		}
 	},
 	computed: {
@@ -39,7 +40,7 @@ export default {
 			this.tempMeteorites = ''
 		},
 		search () {
-			getMeteors('https://data.nasa.gov/resource/gh4g-9sfh.json')
+			getMeteors('https://data.nasa.gov/resource/gh4g-9sfh.json?$limit=45000')
 			.then( response => {
 				console.log(response)
 				this.tempMeteorites = response
@@ -48,9 +49,6 @@ export default {
 				this.statusMsg = "Something went wrong."
 			})
 		},
-		
-			//.then(JSON.parse)
-		},
 		reset () {
 			this.$refs.form.reset()
 		},
@@ -58,6 +56,7 @@ export default {
 			
 		}
 	}
+}
 </script>
 
 <style>

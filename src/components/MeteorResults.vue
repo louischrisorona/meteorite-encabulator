@@ -1,11 +1,11 @@
 <template>
 	<v-container app>
 		<v-data-table
-			:headers="headers"
-			:items="items"
+			:headers="this.headers"
+			:items="meteorites"
 			class="elevation-1"
 		>
-			<template v-slot:items="props">
+			<template v-slot:items="meteorites">
 				<td v-for="key in columns"
 					@click="sortBy(key)">
 						{{ key | capitalize }}
@@ -28,36 +28,33 @@
 export default {
 	name: 'MeteorResults',
 	data () {
-		columns: [
-		{
-			text: 'Name',
-			align: 'center',
-			sortable: false,
-			value: 'name'
-		},
-		{text: 'Name', value: name},
-		{text: 'ID', value: id},
-		{text: 'Rec Class', value: recclass},
-		{text: 'Rec Lat', value: reclat},
-		{text: 'Rec Long', value: reclong},
-		{text: 'Year', value: year},
-		{text: 'Fall', value: fall},
-		{text: 'Geolocation', value: {long, lat}},
-		{text: 'Name Type', value: nametype},
-		{text: 'Mass', value: mass}
-		],
-		items: [],
-		sortOrders: {},
-		this.columns.forEach(function (key) {
-			sortOrders[key] = 1
-		})
 		return {
+			headers: [
+			{
+				text: 'Name',
+				align: 'center',
+				sortable: false,
+				value: 'name'
+			},
+			{text: 'Name', value: name},
+			{text: 'ID', value: id},
+			{text: 'Rec Class', value: recclass},
+			{text: 'Rec Lat', value: reclat},
+			{text: 'Rec Long', value: reclong},
+			{text: 'Year', value: year},
+			{text: 'Fall', value: fall},
+			{text: 'Geolocation', value: {long, lat}},
+			{text: 'Name Type', value: nametype},
+			{text: 'Mass', value: mass}
+			],
+			items: [],
+			sortOrders: {},
 			sortKey: '',
-			sortOrders: sortOrders
+			sortOrders: sortOrders[sortKey]
 		}
 	},
 	computed: {
-		filteredMeteors: function () {
+		filteredMeteors () {
 			let sortKey = this.sortKey
 			let filterKey = this.filterKey && this.filterKey.toLowerCase()
 			let order = this.sortOrders[sortKey] || 1
