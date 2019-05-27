@@ -1,5 +1,5 @@
 <template>
-	<v-container app>
+	<v-container fluid mx-1>
 		<v-data-table
 			:headers="headers"
 			:items="meteorites"
@@ -20,7 +20,6 @@
 </template>
 
 <script>
-import MeteoriteAPI from '../API/MeteoriteAPI.js'
 
 export default {
 	name: 'MeteorResults',	
@@ -45,12 +44,17 @@ export default {
 				{ text: 'Latitude', value: 'geolocation.latitude' },
 				{ text: 'Longitude', value: 'geolocation.longitude' },
 			],
-			meteorites: [MeteoriteAPI],
+			meteorites: [],
 			sortOrders: {},
 			sortKey: 1
 		}
 	},
 	computed: {
+		meteoriteList () {
+			return this.$store.getters.getMeteorites
+		},
+
+
 		filteredMeteors () {
 			let sortKey = this.sortKey
 			let meteors = this.meteorites
@@ -86,7 +90,7 @@ export default {
 </script>
 
 <style>
-	table {
+table {
   border: 2px solid #42b983;
   border-radius: 3px;
   background-color: #fff;

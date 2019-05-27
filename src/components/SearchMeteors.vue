@@ -1,48 +1,35 @@
 <template>
-	<v-container app>
-		<v-form id="search">
-			<input type="text" name="query" v-model="searchQuery">
-			<!-- need to figure out how to use a clear button -->
-			<v-btn class="warning secondary--text" v-on:click="search()">Star Gaze</v-btn>
-		</v-form>
-	</v-container>
+	<v-form @submit.prevent='search'>
+		<v-layout justify-center row wrap>
+			<v-flex xs8 row ma-1 pa-1>
+				<v-text-field
+					class=""
+					placeholder="Search for a meteorite"
+					clearable
+					solo></v-text-field>
+				<v-btn 
+					class="secondary--text warning"
+					v-on:click="search()"
+					type='submit'
+					>
+				Star Gaze
+				</v-btn>
+			</v-flex>
+		</v-layout>
+	</v-form>
 </template>
 
 <script>
-import MeteoriteAPI from '../API/MeteoriteAPI.js'
 
 export default {
 	name: "searchMeteors",
 	data () {
 		return {
-			searchQuery: '?$order=name',
-			searchStatus: 'PENDING',
-			tempMeteorites: [...MeteoriteAPI.state]
+			searchQuery: ''
 		}
-	},
-	computed: {
-		
-	},
-	methods: {
-		submit () {
-			this.$emit("search", MeteoriteAPI.getMeteors(concat(searchQuery)))
-			this.tempMeteorites = []
-		},
-		search () {
-			getMeteors(encodeURI(this.baseAPIurl + this.searchQuery))
-			.then( response => {
-				console.log(response)
-			}).catch( error => {
-				console.log(error)
-				this.statusMsg = "Something went wrong."
-			})
-		},
-		reset () {
-			this.$refs.form.reset()
-		},
-		
 	}
 }
+
 </script>
 
 <style>

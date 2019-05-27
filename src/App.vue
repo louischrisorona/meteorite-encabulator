@@ -20,11 +20,6 @@ export default {
   components: {
     SearchMeteors,
     MeteorResults
-  },
-  data () {
-    return {
-      //
-    }
   }
 }
 </script>
