@@ -1,13 +1,15 @@
+import axios from 'axios'
+
 const baseURL = 'https://data.nasa.gov/resource/gh4g-9sfh.json'
 
 const state = {
-	meteorites: this.getMeteors(baseURL)
+	meteorites: callAPI('setMeteorites')
 }
 
 const actions = {
-	callAPI (query) {
+	callAPI ({ commit }, query) {
 		return new Promise((resolve, reject) => {
-			let url = encodeURI(baseURL + query)
+			let url = encodeURI('https://data.nasa.gov/resource/gh4g-9sfh.json?$order=name&$limit=100' + query)
 			const request = new XMLHttpRequest()
 			request.open("GET", url)
 			request.onload = () => {
@@ -20,21 +22,29 @@ const actions = {
 			request.onerror = () => reject(Error("Network Error"))
 			request.send()
 		})
+	},
+	clearResult ({ commit }) {
+		commit('resetMeteorites')
 	}
 }
 
 const getters = {
-	getMeteors (state){
-		return state
+	getMeteorites (state) {
+		return state.meteorites
+	},
+	getError (state) {
+		return state.error
 	}
 }
 
 const mutations = {
-
+	setMeteorites (state, query) {
+		state.meteorites = query
+	},
+	resetMeteorites (state) {
+		state.meteorites = callAPI('setMeteorites')
+	}
 }
-
-
-
 
 export default {
 	state,
@@ -42,5 +52,3 @@ export default {
 	getters,
 	mutations
 }
-	
-	

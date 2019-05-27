@@ -1,72 +1,67 @@
 <template>
 	<v-container app>
 		<v-data-table
-			:headers="this.headers"
+			:headers="headers"
 			:items="meteorites"
+			:search="search"
+			:pagination.sync="pagination"
 			class="elevation-1"
+			prev-icon="arrow-left"
+			next-icon="arrow-right"
+			sort-icon="arrow-down"
 		>
-			<template v-slot:items="meteorites">
-				<td v-for="key in columns"
-					@click="sortBy(key)">
-						{{ key | capitalize }}
-					<span class="arrow" :class="sortOrders[key]>0?'asc':'desc'"></span>
+			<template v-slot:items="props">
+				<td v-for="(meteor, key) in meteorites" :key=key>
+						{{ props.meteor.name }}
 				</td>
 			</template>
 		</v-data-table>
-			<tbody>
-				<tr v-for="meteor in filteredMeteors">
-					<td v-for="key in columns">
-						{{ meteor[key] }}
-					</td>
-				</tr>
-			</tbody>
-		</table>
 	</v-container>
 </template>
 
 <script>
+import MeteoriteAPI from '../API/MeteoriteAPI.js'
+
 export default {
-	name: 'MeteorResults',
+	name: 'MeteorResults',	
 	data () {
 		return {
 			headers: [
-			{
-				text: 'Name',
-				align: 'center',
-				sortable: false,
-				value: 'name'
-			},
-			{text: 'Name', value: name},
-			{text: 'ID', value: id},
-			{text: 'Rec Class', value: recclass},
-			{text: 'Rec Lat', value: reclat},
-			{text: 'Rec Long', value: reclong},
-			{text: 'Year', value: year},
-			{text: 'Fall', value: fall},
-			{text: 'Geolocation', value: {long, lat}},
-			{text: 'Name Type', value: nametype},
-			{text: 'Mass', value: mass}
+				{
+					text: 'Meteorite',
+					align: 'left',
+					sortable: false,
+					value: 'name'
+				},
+				{ text: 'Name', value: 'name' },
+				{ text: 'ID', value: 'id' },
+				{ text: 'Name Type', value: 'nametype' },
+				{ text: 'Recclass', value: 'recclass' },
+				{ text: 'Mass', value: 'mass' },
+				{ text: 'Fall', value: 'fall' },
+				{ text: 'Year', value: 'year' },
+				{ text: 'Reclat', value: 'reclat' },
+				{ text: 'Reclong', value: 'reclong' },
+				{ text: 'Latitude', value: 'geolocation.latitude' },
+				{ text: 'Longitude', value: 'geolocation.longitude' },
 			],
-			items: [],
+			meteorites: [MeteoriteAPI],
 			sortOrders: {},
-			sortKey: '',
-			sortOrders: sortOrders[sortKey]
+			sortKey: 1
 		}
 	},
 	computed: {
 		filteredMeteors () {
 			let sortKey = this.sortKey
-			let filterKey = this.filterKey && this.filterKey.toLowerCase()
-			let order = this.sortOrders[sortKey] || 1
-			let meteors = this.meteors
-			if (filterKey) {
+			let meteors = this.meteorites
+			if(this.searchStatus == "AWAITING"){
 				meteors = meteors.filter(function (row) {
 					return Object.keys(row).some(function (key) {
-						return String(row[key]).toLowerCase().indexOf(filterKey) > -1
+						return String(row[key]).toLowerCase().indexOf(sortKey) > -1
 					})
 				})
 			}
-			if (sortKey) {
+			if (this.searchStatus == "COMPLETE") {
 				meteors = meteors.slice().sort(function (a, b) {
 					a = a[sortKey]
 					b = b[sortKey]

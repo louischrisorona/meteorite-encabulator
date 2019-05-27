@@ -9,41 +9,29 @@
 </template>
 
 <script>
+import MeteoriteAPI from '../API/MeteoriteAPI.js'
+
 export default {
 	name: "searchMeteors",
 	data () {
 		return {
-			searchQuery: '',
-			baseAPIurl: 'https://data.nasa.gov/resource/gh4g-9sfh.json?'
+			searchQuery: '?$order=name',
+			searchStatus: 'PENDING',
+			tempMeteorites: [...MeteoriteAPI.state]
 		}
 	},
 	computed: {
-		getMeteors (url) {
-			return new Promise((resolve, reject) => {
-				const request = new XMLHttpRequest()
-				request.open("GET", url)
-				request.onload = () => {
-				if (request.status == 200) {
-					resolve(request.responseText)
-				} else {
-					reject(Error(request.statusText))
-				}
-			}
-			request.onerror = () => reject(Error("Network error"))
-			request.send()
-			})
-		}
+		
 	},
 	methods: {
 		submit () {
-			this.$emit("search", this.tempMeteorites)
-			this.tempMeteorites = ''
+			this.$emit("search", MeteoriteAPI.getMeteors(concat(searchQuery)))
+			this.tempMeteorites = []
 		},
 		search () {
-			getMeteors('https://data.nasa.gov/resource/gh4g-9sfh.json?$limit=45000')
+			getMeteors(encodeURI(this.baseAPIurl + this.searchQuery))
 			.then( response => {
 				console.log(response)
-				this.tempMeteorites = response
 			}).catch( error => {
 				console.log(error)
 				this.statusMsg = "Something went wrong."
@@ -52,9 +40,7 @@ export default {
 		reset () {
 			this.$refs.form.reset()
 		},
-		loadMeteors () {
-			
-		}
+		
 	}
 }
 </script>
