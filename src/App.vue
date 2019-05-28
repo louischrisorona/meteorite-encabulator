@@ -6,20 +6,23 @@
 
     <v-content>
       <SearchMeteors/>
-      <MeteorResults/>
     </v-content>
   </v-app>
 </template>
 
 <script>
 import SearchMeteors from './components/SearchMeteors'
-import MeteorResults from './components/MeteorResults'
 
 export default {
   name: 'App',
   components: {
-    SearchMeteors,
-    MeteorResults
+    SearchMeteors
   }
 }
 </script>
+
+<style>
+  .container {
+
+  }
+</style>
