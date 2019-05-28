@@ -1,11 +1,11 @@
 <template>
 	<v-container app>
-		<v-form @submit.prevent='searchMeteorites'>
-			<v-layout justify-center row wrap>
+		<v-form>
+			<v-layout class="ml-5" row wrap>
 				<v-flex xs8 mt-3>
 					<v-layout align-center>
-						<v-text-field :query="searchQuery" placeholder="Search for a meteorite" clearable solo class="mt-2"></v-text-field>
-						<v-btn class="secondary--text warning mb-4" @click="searchMeteorites()" type='submit' round>
+						<v-text-field v-model.trim="searchQuery" placeholder="Search for a meteorite" clearable solo class="mt-2"></v-text-field>
+						<v-btn class="secondary--text warning mb-4" @click="searchMeteorites()" round>
 						Star Gaze
 						</v-btn>
 					</v-layout>
@@ -18,7 +18,7 @@
 				row wrap
 				:headers="headers"
 				:items="meteorites"
-				:pagination.sync="pagination"
+				hide-actions
 				class="elevation-1"
 				>
 				<template v-slot:no-data>
@@ -29,7 +29,7 @@
 
 				<template v-slot:items="props">
 					<tr v-for="meteor in meteorites" class="text-md-center">
-						<td v-for="(category, index) in meteor" class="primary--text text-md-center">
+						<td v-for="(category, index) in meteor" class="primary--text">
 							{{ meteor[index] }}
 						</td>
 					</tr>
@@ -45,8 +45,7 @@ export default {
 	data () {
 		return {
 			pagination: {
-        		sortBy: 'name',
-        		offset: '100'
+        		sortBy: "name",
       		},
 			meteorites: [],
 			headers: [
@@ -55,7 +54,6 @@ export default {
 					sortable: true,
 					sortBy: 'asc',
 					align: 'center',
-					class: 'text-md-center',
 					value: 'name',
 				},
 				{ text: 'ID', value: 'id' },
@@ -65,11 +63,9 @@ export default {
 				{ text: 'Fall', value: 'fall' },
 				{ text: 'Year', value: 'year' },
 				{ text: 'Latitude', value: 'reclat' },
-				{ text: 'Longitude', value: 'reclong' },
-				{ text: 'Geolocation', value: 'geolocation'}
+				{ text: 'Longitude', value: 'reclong' }
 			],
-			baseURL: 'https://data.nasa.gov/resource/gh4g-9sfh.json?$select=name,id,nametype,recclass,fall,date_extract_y(year)%20as%20year,reclat,reclong&$where=name%20like%20%27%25al%25%27&$limit=100',
-			offset: 100,
+			baseURL: 'https://data.nasa.gov/resource/gh4g-9sfh.json?$select=name,id,nametype,recclass,mass,fall,date_extract_y(year) as year,reclat,reclong&$limit=100',
 			searchQuery: ''
 		}
 	},
@@ -82,9 +78,9 @@ export default {
 		},
 		searchMeteorites () {
 			if (this.searchQuery == '') {
-				this.getMeteorites()
+				this.currentMeteorites()
 			} else {
-				fetch(this.baseURL + "&$where=lower(name) like '%25" + this.searchQuery.toLowerCase() + "%25'")
+				fetch(this.baseURL.substring(0, this.baseURL.length-11) + "&$where=lower(name)%20like%20'%25" + this.searchQuery.toLowerCase() + "%25'%20&$limit=100")
 					.then(response => response.json())
 					.then(data => {
 						this.meteorites = data
@@ -111,4 +107,13 @@ export default {
 		height: auto;
 	}
 
+	table.v-table thead th {
+		font-size: 1.5rem !important;
+		text-align: center !important;
+	}
+
+	table.v-table tbody tr td {
+		font-size: 1.5rem !important;
+		color: white !important;
+	}
 </style>
