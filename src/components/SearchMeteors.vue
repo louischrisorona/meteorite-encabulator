@@ -68,7 +68,7 @@ export default {
 				{ text: 'Longitude', value: 'reclong' },
 				{ text: 'Geolocation', value: 'geolocation'}
 			],
-			baseURL: 'https://data.nasa.gov/resource/gh4g-9sfh.json?$order=name&$limit=100',
+			baseURL: 'https://data.nasa.gov/resource/gh4g-9sfh.json?$select=name,id,nametype,recclass,fall,date_extract_y(year)%20as%20year,reclat,reclong&$where=name%20like%20%27%25al%25%27&$limit=100',
 			offset: 100,
 			searchQuery: ''
 		}
