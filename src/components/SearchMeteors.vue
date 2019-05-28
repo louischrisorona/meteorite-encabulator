@@ -78,7 +78,11 @@ export default {
 		},
 		searchMeteorites () {
 			if (this.searchQuery == '') {
-				this.currentMeteorites()
+				if(this.meteorites.length > 0){
+					this.getMeteorites()
+				} else {
+					this.currentMeteories()
+				}
 			} else {
 				fetch(this.baseURL.substring(0, this.baseURL.length-11) + "&$where=lower(name)%20like%20'%25" + this.searchQuery.toLowerCase() + "%25'%20&$limit=100")
 					.then(response => response.json())
